@@ -1,5 +1,7 @@
 package com.example.game;
 
+import com.example.exceptions.TicTacToeInvalidInputException;
+
 import java.util.Arrays;
 
 import static com.example.game.StringConstants.LINE_SEPARATOR;
@@ -16,7 +18,7 @@ public class TicTacToe {
     };
 
     // Affichage par ligne ou colonne des croix ou cercles
-    public void processInput(Player player, int inputUser) {
+    public void processInput(Player player, int inputUser) throws TicTacToeInvalidInputException {
         var row = (inputUser - 1) / 3;
         var column = (inputUser - 1) % 3;
         if(grid[row][column] == '.'){
@@ -25,6 +27,8 @@ public class TicTacToe {
             }else {
                 grid[row][column] = 'O';
             }
+        }else {
+            throw new TicTacToeInvalidInputException("La case est déjà occupée, veuillez en saisir une autre");
         }
     }
     //Méthode checkWin valide si les lignes, colonnes ou diagonales sont correctement remplie par l'utilisateur
@@ -44,6 +48,17 @@ public class TicTacToe {
         return false;
     }
 
+    public boolean checkDraw() {
+        for (char[] row : grid){
+            for(char cell : row){
+                if(cell == '.'){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
         //builder optimise la consommation de mémoire
@@ -58,4 +73,6 @@ public class TicTacToe {
         return builder.toString();
 
     }
+
+
 }

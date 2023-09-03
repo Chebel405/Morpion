@@ -15,6 +15,19 @@ public class TicTacToe {
             {'.', '.', '.'}
     };
 
+    // Affichage par ligne ou colonne des croix ou rond
+    public void processInput(Player player, int inputUser) {
+        var row = (inputUser - 1) / 3;
+        var column = (inputUser - 1) % 3;
+        if(grid[row][column] == '.'){
+            if(player.equals(player.FIRST)){
+                grid[row][column] = 'X';
+            }else {
+                grid[row][column] = 'O';
+            }
+        }
+    }
+
     @Override
     public String toString() {
         //builder optimise la consommation de mémoire
@@ -29,4 +42,6 @@ public class TicTacToe {
         return builder.toString();
 
     }
+
+
 }

@@ -3,10 +3,11 @@ package com.example.morpion;
 import com.example.exceptions.TicTacToeInvalidInputException;
 import com.example.game.Player;
 import com.example.game.TicTacToe;
-import org.springframework.boot.SpringApplication;
-import org.springframework.util.SystemPropertyUtils;
 
+import java.util.HashMap;
 import java.util.Scanner;
+
+import static com.example.game.StringConstants.BLANK;
 
 
 public class MorpionApplication {
@@ -16,17 +17,18 @@ public class MorpionApplication {
        final var game = new TicTacToe();
 
        var player = Player.FIRST;
+       var players = initPlayers();
 
        while(true){
            try{
                System.out.println(game);
-               System.out.println(player + " / Saisissez un nombre entre 1 et 9 : ");
+               System.out.println(players.get(player) + " / Saisissez un nombre entre 1 et 9 : ");
                final var inputUser = getInputUser();
 
                game.processInput(player, inputUser);
                //Verifier si les conditions sont remplies
                if(game.checkWin()){
-                   System.out.println("Le joueur " + player + " a gagné. ");
+                   System.out.println("Le joueur " + players.get(player) + " a gagné. ");
                    // Appel à l'affichage du jeu terminé
                    System.out.println(game);
                    break;
@@ -45,6 +47,20 @@ public class MorpionApplication {
            }
 
        }
+    }
+
+    private static HashMap<Player, String> initPlayers() {
+        var players = new HashMap<Player, String>();
+        var scanner = new Scanner(System.in);
+        do{
+            System.out.println("Saisissez le nom du joueur 1 : ");
+            players.put(Player.FIRST, scanner.nextLine());
+        }while(players.get(Player.FIRST).equals(BLANK));
+        do{
+            System.out.println("Saisissez le nom du joueur 2 : ");
+            players.put(Player.SECOND, scanner.nextLine());
+        }while(players.get(Player.SECOND).equals(BLANK));
+        return players;
     }
 
     private static int getInputUser() throws TicTacToeInvalidInputException {

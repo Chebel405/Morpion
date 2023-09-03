@@ -3,6 +3,7 @@ package com.example.morpion;
 import com.example.game.Player;
 import com.example.game.TicTacToe;
 import org.springframework.boot.SpringApplication;
+import org.springframework.util.SystemPropertyUtils;
 
 import java.util.Scanner;
 
@@ -22,6 +23,13 @@ public class MorpionApplication {
            final var inputUser = scanner.nextInt();
 
            game.processInput(player, inputUser);
+           //Verifier si les conditions sont remplies
+           if(game.checkWin()){
+               System.out.println("Le joueur " + player + " a gagné. ");
+               // Appel à l'affichage du jeu terminé
+               System.out.println(game);
+               break;
+           }
            player = nextPlayer(player);
        }
     }
